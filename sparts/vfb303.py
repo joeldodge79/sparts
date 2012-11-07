@@ -1,6 +1,8 @@
 from .fb303 import FacebookService
 from .fb303.ttypes import fb_status
 
+import pstats
+from cStringIO import StringIO
 
 
 class VServiceFB303Processor(FacebookService.Processor):
@@ -65,6 +67,12 @@ class VServiceFB303Processor(FacebookService.Processor):
         for k in self.service.getOptions():
             result[k] = self.getOption(k)
         return result
+
+    def getCpuProfile(self, profileDurationInSec):
+        profile = self.service.getCpuProfile(profileDurationInSec)
+        buf = StringIO()
+        pstats.Stats(profile, stream=buf).strip_dirs().sort_stats(-1).print_stats()
+        return buf.getvalue()
 
     def aliveSince(self):
         return self.service.start_time

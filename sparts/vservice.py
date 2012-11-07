@@ -5,6 +5,8 @@ from vtask import SkipTask
 import time
 import threading
 import signal
+import os
+import cProfile
 
 class VService(object):
     DEFAULT_LOGLEVEL = 'DEBUG'
@@ -189,3 +191,10 @@ class VService(object):
 
     def getOptions(self):
         return self.options.__dict__
+
+    def getCpuProfile(self, profileDurationInSec):
+        profile = cProfile.Profile()
+        profile.enable()
+        time.sleep(profileDurationInSec)
+        profile.disable()
+        return profile
