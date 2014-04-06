@@ -262,7 +262,8 @@ class samples(_Nameable, _Bindable):
 
 class option(_Nameable):
     def __init__(self, name=None, type=None, default=None, help=None,
-                 action=None, metavar=None, required=False, choices=None):
+                 action=None, metavar=None, required=False, choices=None,
+                 nargs=None):
         super(option, self).__init__(name)
 
         # Set defaults for action=storeX to bool (otherwise, str)
@@ -279,6 +280,7 @@ class option(_Nameable):
         self.metavar = metavar
         self.required = required
         self.choices = choices
+        self.nargs = nargs
 
     def __get__(self, obj, type=None):
         if obj is None:
@@ -329,6 +331,8 @@ class option(_Nameable):
             kwargs['metavar'] = self.metavar
             kwargs['type'] = self.type
             kwargs['choices'] = self.choices
+        if self.nargs is not None:
+            kwargs['nargs'] = self.nargs
         add_arg_args = namedtuple('add_arg_args', 'opts kwargs')
         return add_arg_args([name], kwargs)
 
