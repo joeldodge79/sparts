@@ -77,7 +77,7 @@ class VServiceFB303Processor(FacebookService.Processor):
         value = self.service.getOption(name)
         if value is None:
             value = '__None__'
-        return value
+        return str(value)
 
     def getOptions(self):
         result = {}
